@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "orders")
@@ -21,16 +23,20 @@ public class Order {
 	
 	@ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
+	@NotNull
     private Book book;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @NotNull
     private Customer customer;
     
     @Column(nullable = false)
+    @NotBlank
 	private String status;
     
     @Column(nullable = false)
+    @NotNull
     private LocalDateTime orderTime;
 	
 	
@@ -58,6 +64,14 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public LocalDateTime getOrderTime() {
+		return orderTime;
+	}
+	public void setOrderTime(LocalDateTime orderTime) {
+		this.orderTime = orderTime;
+	}
+	
+	
 	
 	
 

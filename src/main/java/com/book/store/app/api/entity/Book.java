@@ -6,6 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class Book {
@@ -14,27 +17,32 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column
-	private String titel;
+	@Column(nullable = false)
+	@NotBlank(message = "Name is blank")
+	private String title;
 	
-	@Column
+	@Column(nullable = false)
+	@NotBlank(message = "Author is blank")
 	private String author;
 	
-	@Column
+	@Column(nullable = false)
+	@NotBlank(message = "Ean is blank")
 	private String ean;
 	
-	@Column
+	@Column(nullable = false)
+	@Positive(message = "Price is negative")
 	private double price;
 	
-	@Column
+	@Column(nullable = false)
+	@NotNull(message = "Publishing date is null")
 	private LocalDate publishingDate;
 	
 	
-	public String getTitel() {
-		return titel;
+	public String getTitle() {
+		return title;
 	}
-	public void setTitel(String titel) {
-		this.titel = titel;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getAuthor() {
 		return author;

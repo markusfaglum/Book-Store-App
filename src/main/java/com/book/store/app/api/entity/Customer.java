@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Customer {
@@ -13,16 +15,21 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column
+	@Column(nullable = false)
+	@NotBlank(message = "Customer Name is blank")
 	private String name;
 	
-	@Column
+	@Column(nullable = false)
+	@NotBlank(message = "Customer address is blank")
 	private String address;
 	
-	@Column
+	@Column(nullable = false)
+	@NotBlank(message = "Customer email is blank")
 	private String email;
 	
-	@Column
+	@Column(nullable = false)
+	@NotBlank(message = "Customer password is blank")
+	@Size(min = 6, max = 36, message = "Password must be between 6-36 characters")
 	private String password;
 	
 	public long getId() {
