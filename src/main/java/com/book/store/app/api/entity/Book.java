@@ -37,7 +37,29 @@ public class Book {
 	@NotNull(message = "Publishing date is null")
 	private LocalDate publishingDate;
 	
+	public Book(Long id, String title, String author, String ean, double price, LocalDate publishingDate) {
+        this.id = id;
+		this.title = title;
+        this.author = author;
+        this.ean = ean;
+        this.price = price;
+        this.publishingDate = publishingDate;
+    }
 	
+	
+	
+	public long getId() {
+		return id;
+	}
+
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+
 	public String getTitle() {
 		return title;
 	}

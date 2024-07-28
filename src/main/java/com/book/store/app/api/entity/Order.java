@@ -38,6 +38,14 @@ public class Order {
     @Column(nullable = false)
     @NotNull
     private LocalDateTime orderTime;
+    
+    public Order(Long id, Book book, Customer customer, String status, LocalDateTime orderTime) {
+        this.id = id;
+        this.book = book;
+        this.customer = customer;
+        this.status = status;
+        this.orderTime = orderTime;
+    }
 	
 	
 	public long getId() {
