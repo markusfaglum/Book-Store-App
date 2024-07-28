@@ -85,7 +85,7 @@ public class OrderTest {
 
         // Assert
         assertFalse(violations.isEmpty());
-        assertEquals(4, violations.size()); // Adjust based on the actual constraints
+        assertEquals(4, violations.size()); 
     }
 
     @Test

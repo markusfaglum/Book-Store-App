@@ -65,7 +65,7 @@ public class BookTest {
 
         // Assert
         assertFalse(violations.isEmpty());
-        assertEquals(3, violations.size()); // Adjust this number based on the actual constraints
+        assertEquals(3, violations.size()); 
     }
 
 

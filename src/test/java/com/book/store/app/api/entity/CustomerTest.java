@@ -64,7 +64,7 @@ public class CustomerTest {
 
         // Assert
         assertFalse(violations.isEmpty());
-        assertEquals(4, violations.size()); // Adjust based on actual constraints
+        assertEquals(4, violations.size()); 
     }
 
     @Test
