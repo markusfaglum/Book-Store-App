@@ -44,19 +44,23 @@ public class OrderTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        // Create and save a test book
-        testBook = new Book(0L, "Test Book", "Test Author", "EAN123456", 25.99, LocalDate.now());
+       
+        testBook = new Book("Test Book", "Test Author", "EAN123456", 25.99, "time");
         testBook = bookRepo.save(testBook);
 
-        // Create and save a test customer
-        testCustomer = new Customer(0L, "Test Customer", "123 Test St", "test@example.com", "password123");
+      
+        testCustomer = new Customer("Test Customer", "123 Test St", "test@example.com", "password123");
         testCustomer = customerRepo.save(testCustomer);
     }
 
     @Test
     public void testSaveAndRetrieveOrder() {
         // Arrange
-        Order order = new Order(0L, testBook, testCustomer, "Processing", LocalDateTime.now());
+    	 testBook = new Book("Test Book", "Test Author", "EAN123456", 25.99, "time");
+    	 testBook = bookRepo.save(testBook);
+    	 testCustomer = new Customer("John Doe", "123 Main St", "john.doe@example.com", "securePassword123");
+    	 testCustomer = customerRepo.save(testCustomer);
+        Order order = new Order(testBook, testCustomer, "Processing", LocalDateTime.now());
 
         // Act
         Order savedOrder = orderRepo.save(order);
@@ -73,12 +77,12 @@ public class OrderTest {
     @Test
     public void testOrderValidation() {
         // Arrange
-        Order order = new Order(0L, null, null, "", null);
+        Order order = new Order(null, null, "", null);
 
         // Act
         Set<ConstraintViolation<Order>> violations = validator.validate(order);
 
-        // Debugging output
+        
         for (ConstraintViolation<Order> violation : violations) {
             System.out.println("Violation: " + violation.getPropertyPath() + " - " + violation.getMessage());
         }
@@ -91,7 +95,7 @@ public class OrderTest {
     @Test
     public void testSaveOrderWithValidData() {
         // Arrange
-        Order order = new Order(0L, testBook, testCustomer, "Completed", LocalDateTime.now());
+        Order order = new Order(testBook, testCustomer, "Completed", LocalDateTime.now());
 
         // Act
         Order savedOrder = orderRepo.save(order);
@@ -107,10 +111,10 @@ public class OrderTest {
     @Test
     public void testUpdateOrder() {
         // Arrange
-        Order order = new Order(0L, testBook, testCustomer, "Pending", LocalDateTime.now());
+        Order order = new Order(testBook, testCustomer, "Pending", LocalDateTime.now());
         Order savedOrder = orderRepo.save(order);
 
-        // Update order details
+        
         savedOrder.setStatus("Shipped");
 
         // Act
@@ -125,7 +129,7 @@ public class OrderTest {
     @Test
     public void testDeleteOrder() {
         // Arrange
-        Order order = new Order(0L, testBook, testCustomer, "Cancelled", LocalDateTime.now());
+        Order order = new Order(testBook, testCustomer, "Cancelled", LocalDateTime.now());
         Order savedOrder = orderRepo.save(order);
 
         // Act

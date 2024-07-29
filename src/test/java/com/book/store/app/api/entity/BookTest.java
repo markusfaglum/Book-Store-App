@@ -36,7 +36,7 @@ public class BookTest {
     @Test
     public void testSaveAndRetrieveBook() {
         // Arrange
-        Book book = new Book(0L, "Title", "Author", "EAN123456", 29.99, LocalDate.now());
+        Book book = new Book("Title", "Author", "EAN123456", 29.99, "time");
 
         // Act
         Book savedBook = bookRepo.save(book);
@@ -53,12 +53,12 @@ public class BookTest {
     @Test
     public void testBookValidation() {
         // Arrange
-        Book book = new Book(0L, "", "Author", "", -1.0, LocalDate.now());
+        Book book = new Book("", "Author", "", -1.0, "time");
 
         // Act
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
-        // Debugging output
+        
         for (ConstraintViolation<Book> violation : violations) {
             System.out.println("Violation: " + violation.getPropertyPath() + " - " + violation.getMessage());
         }
@@ -72,7 +72,7 @@ public class BookTest {
     @Test
     public void testSaveBookWithValidData() {
         // Arrange
-        Book book = new Book(0L, "Valid Title", "Valid Author", "EAN123", 20.0, LocalDate.now());
+        Book book = new Book("Valid Title", "Valid Author", "EAN123", 20.0, "time");
 
         // Act
         Book savedBook = bookRepo.save(book);
@@ -88,10 +88,10 @@ public class BookTest {
     @Test
     public void testUpdateBook() {
         // Arrange
-        Book book = new Book(0L, "Old Title", "Old Author", "EANOLD", 10.0, LocalDate.now());
+        Book book = new Book("Old Title", "Old Author", "EANOLD", 10.0, "time");
         Book savedBook = bookRepo.save(book);
 
-        // Update book details
+        
         savedBook.setTitle("Updated Title");
         savedBook.setAuthor("Updated Author");
         savedBook.setEan("EANNEW");
@@ -112,7 +112,7 @@ public class BookTest {
     @Test
     public void testDeleteBook() {
         // Arrange
-        Book book = new Book(0L, "Title to Delete", "Author", "EANDELETE", 25.0, LocalDate.now());
+        Book book = new Book("Title to Delete", "Author", "EANDELETE", 25.0, "time");
         Book savedBook = bookRepo.save(book);
 
         // Act

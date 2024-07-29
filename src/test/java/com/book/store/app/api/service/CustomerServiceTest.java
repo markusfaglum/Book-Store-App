@@ -38,8 +38,8 @@ class CustomerServiceTest {
     @Test
     void testGetAllCustomers() {
         // Arrange
-        Customer customer1 = new Customer(1L, "John Doe", "123 Main St", "john@example.com", "password123");
-        Customer customer2 = new Customer(2L, "Jane Doe", "456 Elm St", "jane@example.com", "password456");
+        Customer customer1 = new Customer("John Doe", "123 Main St", "john@example.com", "password123");
+        Customer customer2 = new Customer("Jane Doe", "456 Elm St", "jane@example.com", "password456");
         when(customerRepo.findAll()).thenReturn(Arrays.asList(customer1, customer2));
 
         // Act
@@ -54,16 +54,16 @@ class CustomerServiceTest {
     @Test
     void testGetCustomerById_Found() {
         // Arrange
-        Customer customer = new Customer(1L, "John Doe", "123 Main St", "john@example.com", "password123");
-        when(customerRepo.findById(1L)).thenReturn(Optional.of(customer));
+        Customer customer = new Customer("John Doe", "123 Main St", "john@example.com", "password123");
+        when(customerRepo.findById(customer.getId())).thenReturn(Optional.of(customer));
 
         // Act
-        Customer foundCustomer = customerService.getCustomerById(1L);
+        Customer foundCustomer = customerService.getCustomerById(customer.getId());
 
         // Assert
         assertNotNull(foundCustomer);
         assertEquals("John Doe", foundCustomer.getName());
-        verify(customerRepo, times(1)).findById(1L);
+        verify(customerRepo, times(1)).findById(customer.getId());
     }
 
     @Test
@@ -82,7 +82,7 @@ class CustomerServiceTest {
     @Test
     void testSaveCustomer() {
         // Arrange
-        Customer customer = new Customer(1L, "John Doe", "123 Main St", "john@example.com", "password123");
+        Customer customer = new Customer("John Doe", "123 Main St", "john@example.com", "password123");
         when(customerRepo.save(any(Customer.class))).thenReturn(customer);
 
         // Act
@@ -97,30 +97,30 @@ class CustomerServiceTest {
     @Test
     void testUpdateCustomer() {
         // Arrange
-        Customer existingCustomer = new Customer(1L, "John Doe", "123 Main St", "john@example.com", "password123");
-        Customer updatedCustomerData = new Customer(1L, "John Smith", "789 Oak St", "john.smith@example.com", "newpassword123");
-        when(customerRepo.findById(1L)).thenReturn(Optional.of(existingCustomer));
+        Customer existingCustomer = new Customer("John Doe", "123 Main St", "john@example.com", "password123");
+        Customer updatedCustomerData = new Customer("John Smith", "789 Oak St", "john.smith@example.com", "newpassword123");
+        when(customerRepo.findById(existingCustomer.getId())).thenReturn(Optional.of(existingCustomer));
         when(customerRepo.save(existingCustomer)).thenReturn(existingCustomer);
 
         // Act
-        Customer updatedCustomer = customerService.updateCustomer(1L, updatedCustomerData);
+        Customer updatedCustomer = customerService.updateCustomer(existingCustomer.getId(), updatedCustomerData);
 
         // Assert
         assertNotNull(updatedCustomer);
         assertEquals("John Smith", updatedCustomer.getName());
         assertEquals("newpassword123", updatedCustomer.getPassword());
-        verify(customerRepo, times(1)).findById(1L);
+        verify(customerRepo, times(1)).findById(existingCustomer.getId());
         verify(customerRepo, times(1)).save(existingCustomer);
     }
 
     @Test
     void testDeleteCustomer() {
         // Arrange
-        Customer customer = new Customer(1L, "John Doe", "123 Main St", "john@example.com", "password123");
-        when(customerRepo.findById(1L)).thenReturn(Optional.of(customer));
+        Customer customer = new Customer("John Doe", "123 Main St", "john@example.com", "password123");
+        when(customerRepo.findById(customer.getId())).thenReturn(Optional.of(customer));
 
         // Act
-        customerService.deleteCustomer(1L);
+        customerService.deleteCustomer(customer.getId());
 
         // Assert
         verify(customerRepo, times(1)).delete(customer);

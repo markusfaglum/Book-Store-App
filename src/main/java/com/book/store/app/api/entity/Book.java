@@ -1,6 +1,6 @@
 package com.book.store.app.api.entity;
 
-import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,10 +35,14 @@ public class Book {
 	
 	@Column(nullable = false)
 	@NotNull(message = "Publishing date is null")
-	private LocalDate publishingDate;
+	private String publishingDate;
 	
-	public Book(Long id, String title, String author, String ean, double price, LocalDate publishingDate) {
-        this.id = id;
+	public Book() {
+		
+	}
+	
+	public Book(String title, String author, String ean, double price, String publishingDate) {
+       
 		this.title = title;
         this.author = author;
         this.ean = ean;
@@ -84,12 +88,15 @@ public class Book {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public LocalDate getPublishingDate() {
+
+	public String getPublishingDate() {
 		return publishingDate;
 	}
-	public void setPublishingDate(LocalDate publishingDate) {
+
+	public void setPublishingDate(String publishingDate) {
 		this.publishingDate = publishingDate;
 	}
+	
 	
 
 }

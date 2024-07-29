@@ -41,8 +41,8 @@ class BookServiceTest {
     @Test
     void testGetAllBooks() {
         // Arrange
-        Book book1 = new Book(1L, "Title1", "Author1", "EAN1", 10.0, LocalDate.now());
-        Book book2 = new Book(2L, "Title2", "Author2", "EAN2", 15.0, LocalDate.now());
+        Book book1 = new Book("Title1", "Author1", "EAN1", 10.0, "time");
+        Book book2 = new Book("Title2", "Author2", "EAN2", 15.0, "time");
         when(bookRepo.findAll()).thenReturn(Arrays.asList(book1, book2));
 
         // Act
@@ -57,17 +57,17 @@ class BookServiceTest {
     @Test
     void testGetBookById_Found() {
         // Arrange
-        Book book = new Book(1L, "Title", "Author", "EAN", 10.0, LocalDate.now());
+        Book book = new Book("Title", "Author", "EAN", 10.0, "time");
         
-        when(bookRepo.findById(1L)).thenReturn(Optional.of(book));
+        when(bookRepo.findById(book.getId())).thenReturn(Optional.of(book));
 
         // Act
-        Book foundBook = bookService.getBookById(1L);
+        Book foundBook = bookService.getBookById(book.getId());
 
         // Assert
         assertNotNull(foundBook);
         assertEquals("Title", foundBook.getTitle());
-        verify(bookRepo, times(1)).findById(1L);
+        verify(bookRepo, times(1)).findById(book.getId());
     }
 
     @Test
@@ -86,7 +86,7 @@ class BookServiceTest {
     @Test
     void testSaveBook() {
         // Arrange
-        Book book = new Book(1L, "Title", "Author", "EAN", 10.0, LocalDate.now());
+        Book book = new Book("Title", "Author", "EAN", 10.0, "time");
         when(bookRepo.save(any(Book.class))).thenReturn(book);
 
         // Act
@@ -101,30 +101,30 @@ class BookServiceTest {
     @Test
     void testUpdateBook() {
         // Arrange
-        Book existingBook = new Book(1L, "Old Title", "Old Author", "Old EAN", 20.0, LocalDate.now());
-        Book updatedBookData = new Book(1L, "New Title", "New Author", "New EAN", 25.0, LocalDate.now());
-        when(bookRepo.findById(1L)).thenReturn(Optional.of(existingBook));
+        Book existingBook = new Book("Old Title", "Old Author", "Old EAN", 20.0, "time");
+        Book updatedBookData = new Book("New Title", "New Author", "New EAN", 25.0, "time");
+        when(bookRepo.findById(existingBook.getId())).thenReturn(Optional.of(existingBook));
         when(bookRepo.save(existingBook)).thenReturn(existingBook);
 
         // Act
-        Book updatedBook = bookService.updateBook(1L, updatedBookData);
+        Book updatedBook = bookService.updateBook(existingBook.getId(), updatedBookData);
 
         // Assert
         assertNotNull(updatedBook);
         assertEquals("New Title", updatedBook.getTitle());
         assertEquals(25.0, updatedBook.getPrice());
-        verify(bookRepo, times(1)).findById(1L);
+        verify(bookRepo, times(1)).findById(existingBook.getId());
         verify(bookRepo, times(1)).save(existingBook);
     }
 
     @Test
     void testDeleteBook() {
         // Arrange
-        Book book = new Book(1L, "Title", "Author", "EAN", 10.0, LocalDate.now());
-        when(bookRepo.findById(1L)).thenReturn(Optional.of(book));
+        Book book = new Book("Title", "Author", "EAN", 10.0, "time");
+        when(bookRepo.findById(book.getId())).thenReturn(Optional.of(book));
 
         // Act
-        bookService.deleteBook(1L);
+        bookService.deleteBook(book.getId());
 
         // Assert
         verify(bookRepo, times(1)).delete(book);

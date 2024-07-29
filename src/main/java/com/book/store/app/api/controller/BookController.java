@@ -18,7 +18,7 @@ import com.book.store.app.api.service.BookService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/books")
 public class BookController {
 	
 	 @Autowired

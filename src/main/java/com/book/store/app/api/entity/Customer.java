@@ -32,8 +32,11 @@ public class Customer {
 	@Size(min = 6, max = 36, message = "Password must be between 6-36 characters")
 	private String password;
 	
-	public Customer(Long id, String name, String address, String email, String password) {
-        this.id = id;
+	// Default constructor
+    public Customer() {
+    }
+	
+	public Customer(String name, String address, String email, String password) {
         this.name = name;
         this.address = address;
         this.email = email;

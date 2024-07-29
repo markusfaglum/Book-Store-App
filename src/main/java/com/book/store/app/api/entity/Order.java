@@ -39,8 +39,12 @@ public class Order {
     @NotNull
     private LocalDateTime orderTime;
     
-    public Order(Long id, Book book, Customer customer, String status, LocalDateTime orderTime) {
-        this.id = id;
+    public Order() {
+		
+	}
+    
+    public Order(Book book, Customer customer, String status, LocalDateTime orderTime) {
+        
         this.book = book;
         this.customer = customer;
         this.status = status;

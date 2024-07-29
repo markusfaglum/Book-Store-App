@@ -33,6 +33,8 @@ class OrderServiceTest {
 
     @Mock
     private OrderRepo orderRepo;
+    
+    
 
     @BeforeEach
     void setUp() {
@@ -42,12 +44,12 @@ class OrderServiceTest {
     @Test
     void testGetAllOrders() {
         // Arrange
-    	Book book1 = new Book(1L, "Title", "Author", "EAN", 20.0, LocalDate.now());
-    	Book book2 = new Book(2L, "Title2", "Author2", "EAN2", 20.2, LocalDate.now());
-    	Customer customer1 = new Customer(1L, "Name", "Address", "Email", "Password");
-    	Customer customer2 = new Customer(2L, "Name2", "Address2", "Email2", "Password2");
-        Order order1 = new Order(1L, book1, customer1, "Status1", LocalDateTime.now());
-        Order order2 = new Order(2L, book2, customer2, "Status2", LocalDateTime.now());
+    	Book book1 = new Book("Title", "Author", "EAN", 20.0, "time");
+    	Book book2 = new Book("Title2", "Author2", "EAN2", 20.2, "time");
+    	Customer customer1 = new Customer("Name", "Address", "Email", "Password");
+    	Customer customer2 = new Customer("Name2", "Address2", "Email2", "Password2");
+        Order order1 = new Order(book1, customer1, "Status1", LocalDateTime.now());
+        Order order2 = new Order(book2, customer2, "Status2", LocalDateTime.now());
         when(orderRepo.findAll()).thenReturn(Arrays.asList(order1, order2));
 
         // Act
@@ -62,18 +64,18 @@ class OrderServiceTest {
     @Test
     void testGetOrderById_Found() {
         // Arrange
-    	Book book1 = new Book(1L, "Title", "Author", "EAN", 20.0, LocalDate.now());
-    	Customer customer1 = new Customer(1L, "Name", "Address", "Email", "Password");
-        Order order = new Order(1L, book1, customer1, "Status", LocalDateTime.now());
-        when(orderRepo.findById(1L)).thenReturn(Optional.of(order));
+    	Book book1 = new Book("Title", "Author", "EAN", 20.0, "time");
+    	Customer customer1 = new Customer("Name", "Address", "Email", "Password");
+        Order order = new Order(book1, customer1, "Status", LocalDateTime.now());
+        when(orderRepo.findById(order.getId())).thenReturn(Optional.of(order));
 
         // Act
-        Order foundOrder = orderService.getOrderById(1L);
+        Order foundOrder = orderService.getOrderById(order.getId());
 
         // Assert
         assertNotNull(foundOrder);
         assertEquals("Status", foundOrder.getStatus());
-        verify(orderRepo, times(1)).findById(1L);
+        verify(orderRepo, times(1)).findById(order.getId());
     }
 
     @Test
@@ -92,9 +94,9 @@ class OrderServiceTest {
     @Test
     void testSaveOrder() {
         // Arrange
-    	Book book1 = new Book(1L, "Title", "Author", "EAN", 20.0, LocalDate.now());
-    	Customer customer1 = new Customer(1L, "Name", "Address", "Email", "Password");
-        Order order = new Order(1L, book1, customer1, "Status", LocalDateTime.now());
+    	Book book1 = new Book("Title", "Author", "EAN", 20.0, "time");
+    	Customer customer1 = new Customer("Name", "Address", "Email", "Password");
+        Order order = new Order(book1, customer1, "Status", LocalDateTime.now());
         when(orderRepo.save(any(Order.class))).thenReturn(order);
 
         // Act
@@ -109,33 +111,33 @@ class OrderServiceTest {
     @Test
     void testUpdateOrder() {
         // Arrange
-    	Book book1 = new Book(1L, "Title", "Author", "EAN", 20.0, LocalDate.now());
-    	Customer customer1 = new Customer(1L, "Name", "Address", "Email", "Password");
-        Order existingOrder = new Order(1L, book1, customer1, "Old Status", LocalDateTime.now());
-        Order updatedOrderData = new Order(1L, book1, customer1, "New Status", LocalDateTime.now());
-        when(orderRepo.findById(1L)).thenReturn(Optional.of(existingOrder));
+    	Book book1 = new Book("Title", "Author", "EAN", 20.0, "time");
+    	Customer customer1 = new Customer("Name", "Address", "Email", "Password");
+        Order existingOrder = new Order(book1, customer1, "Old Status", LocalDateTime.now());
+        Order updatedOrderData = new Order(book1, customer1, "New Status", LocalDateTime.now());
+        when(orderRepo.findById(existingOrder.getId())).thenReturn(Optional.of(existingOrder));
         when(orderRepo.save(existingOrder)).thenReturn(existingOrder);
 
         // Act
-        Order updatedOrder = orderService.updateOrder(1L, updatedOrderData);
+        Order updatedOrder = orderService.updateOrder(existingOrder.getId(), updatedOrderData);
 
         // Assert
         assertNotNull(updatedOrder);
         assertEquals("New Status", updatedOrder.getStatus());
-        verify(orderRepo, times(1)).findById(1L);
+        verify(orderRepo, times(1)).findById(existingOrder.getId());
         verify(orderRepo, times(1)).save(existingOrder);
     }
 
     @Test
     void testDeleteOrder() {
         // Arrange
-    	Book book1 = new Book(1L, "Title", "Author", "EAN", 20.0, LocalDate.now());
-    	Customer customer1 = new Customer(1L, "Name", "Address", "Email", "Password");
-        Order order = new Order(1L, book1, customer1, "Status", LocalDateTime.now());
-        when(orderRepo.findById(1L)).thenReturn(Optional.of(order));
+    	Book book1 = new Book("Title", "Author", "EAN", 20.0, "time");
+    	Customer customer1 = new Customer("Name", "Address", "Email", "Password");
+        Order order = new Order(book1, customer1, "Status", LocalDateTime.now());
+        when(orderRepo.findById(order.getId())).thenReturn(Optional.of(order));
 
         // Act
-        orderService.deleteOrder(1L);
+        orderService.deleteOrder(order.getId());
 
         // Assert
         verify(orderRepo, times(1)).delete(order);

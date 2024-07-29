@@ -35,7 +35,7 @@ public class CustomerTest {
     @Test
     public void testSaveAndRetrieveCustomer() {
         // Arrange
-        Customer customer = new Customer(0L, "John Doe", "123 Main St", "john.doe@example.com", "securePassword123");
+        Customer customer = new Customer("John Doe", "123 Main St", "john.doe@example.com", "securePassword123");
 
         // Act
         Customer savedCustomer = customerRepo.save(customer);
@@ -52,12 +52,12 @@ public class CustomerTest {
     @Test
     public void testCustomerValidation() {
         // Arrange
-        Customer customer = new Customer(0L, "", "", "", "kk");
+        Customer customer = new Customer("", "", "", "kk");
 
         // Act
         Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 
-        // Debugging output
+        
         for (ConstraintViolation<Customer> violation : violations) {
             System.out.println("Violation: " + violation.getPropertyPath() + " - " + violation.getMessage());
         }
@@ -70,7 +70,7 @@ public class CustomerTest {
     @Test
     public void testSaveCustomerWithValidData() {
         // Arrange
-        Customer customer = new Customer(0L, "Jane Doe", "456 Elm St", "jane.doe@example.com", "anotherSecurePassword");
+        Customer customer = new Customer("Jane Doe", "456 Elm St", "jane.doe@example.com", "anotherSecurePassword");
 
         // Act
         Customer savedCustomer = customerRepo.save(customer);
@@ -86,10 +86,10 @@ public class CustomerTest {
     @Test
     public void testUpdateCustomer() {
         // Arrange
-        Customer customer = new Customer(0L, "Old Name", "Old Address", "old.email@example.com", "oldPassword");
+        Customer customer = new Customer("Old Name", "Old Address", "old.email@example.com", "oldPassword");
         Customer savedCustomer = customerRepo.save(customer);
 
-        // Update customer details
+      
         savedCustomer.setName("New Name");
         savedCustomer.setAddress("New Address");
         savedCustomer.setEmail("new.email@example.com");
@@ -110,7 +110,7 @@ public class CustomerTest {
     @Test
     public void testDeleteCustomer() {
         // Arrange
-        Customer customer = new Customer(0L, "Delete Name", "Delete Address", "delete.email@example.com", "deletePassword");
+        Customer customer = new Customer("Delete Name", "Delete Address", "delete.email@example.com", "deletePassword");
         Customer savedCustomer = customerRepo.save(customer);
 
         // Act

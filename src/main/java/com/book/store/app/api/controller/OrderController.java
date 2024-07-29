@@ -18,7 +18,7 @@ import com.book.store.app.api.service.OrderService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/orders")
 public class OrderController {
     @Autowired
     private OrderService orderService;
